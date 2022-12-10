@@ -1,0 +1,14 @@
+int factorial(int);
+double plus(double, double);
+double minus(double, double);
+double multiply(double, double);
+double divide(double, double);
+double square(double);
+double anySquare(double, int);
+double oneAboveX(double);
+double module(double);
+double euler();
+double squareRoot(double);
+double ln(double);
+double log(double);
+double pi();
