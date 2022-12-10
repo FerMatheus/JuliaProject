@@ -23,6 +23,7 @@ squareRoot = ccall((:squareRoot, func), Cdouble, (Cdouble,), parse(Float64, x))
 ln = ccall((:ln, func), Cdouble, (Cdouble,), parse(Float64, x))
 log = ccall((:log, func), Cdouble, (Cdouble,), parse(Float64, x))
 pi = ccall((:pi, func), Cdouble, (),)
+fat = ccall((:factorial, func), Int, (Int,), parse(Int, x))
 
 
 
@@ -39,3 +40,4 @@ println("Resultado da squareRoot = $squareRoot")
 println("Resultado da ln = $ln")
 println("Resultado da log = $log")
 println("Resultado da pi = $pi")
+println("Resultado da factorial = $fat")
