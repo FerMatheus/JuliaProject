@@ -13,7 +13,10 @@ hbox7 = GtkButtonBox(:h)
 vbox = GtkButtonBox(:v)
 label = GtkLabel("")
 GAccessor.text(label, "")
+
+push!(vbox, GtkLabel(""))
 push!(vbox, label)
+push!(vbox, GtkLabel(""))
 # Buttons
 
 # Numerics
@@ -105,7 +108,7 @@ push!(vbox, hbox6)
 push!(win, vbox)
 
 output = ""
-
+func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c.dll"
 function write_label(wiget)
     if wiget == bt1
         global output = output * "1"
@@ -156,15 +159,16 @@ function write_label(wiget)
         global output = output * "/"
         GAccessor.text(label, output)
     elseif wiget == btpi
-        global output = output * "π"
+        pi = ccall((:pi, func), Float64, (),)
+        global output = "$pi"
         GAccessor.text(label, output)
     elseif wiget == btinv
-        num = parse(Float64, outpout)
-        num = num*-1
-        global output = parse(String, num)
+        aux = parse(Float64, output)
+        global output = string(aux * -1)
         GAccessor.text(label, output)
     elseif wiget == btfat
-        global output = output * "!"
+        fat = ccall((:factorial, func), Int, (Int,), parse(Int, output))
+        global output = "$fat"
         GAccessor.text(label, output)
     elseif wiget == btparamsL
         global output = output * "("
@@ -173,10 +177,12 @@ function write_label(wiget)
         global output = output * ")"
         GAccessor.text(label, output)
     elseif wiget == btsquareRoot
-        global output = output * "√"
+        squareRoot = ccall((:squareRoot, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$squareRoot"
         GAccessor.text(label, output)
     elseif wiget == btoneAboveX
-        global output = output * "1/"
+        oneAboveX = ccall((:oneAboveX, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$oneAboveX"
         GAccessor.text(label, output)
     elseif wiget == btsquare
         global output = output * "²"
@@ -202,5 +208,36 @@ function write_label(wiget)
     end
 end
 id1 = signal_connect(write_label, bt1, "clicked")
-id2 = signal_connect(write_label, btinv, "clicked")
+id2 = signal_connect(write_label, bt2, "clicked")
+id3 = signal_connect(write_label, bt3, "clicked")
+id4 = signal_connect(write_label, bt4, "clicked")
+id5 = signal_connect(write_label, bt5, "clicked")
+id6 = signal_connect(write_label, bt6, "clicked")
+id7 = signal_connect(write_label, bt7, "clicked")
+id8 = signal_connect(write_label, bt8, "clicked")
+id9 = signal_connect(write_label, bt9, "clicked")
+id10 = signal_connect(write_label, bt0, "clicked")
+id11 = signal_connect(write_label, btplus, "clicked")
+id12 = signal_connect(write_label, btminus, "clicked")
+id13 = signal_connect(write_label, btmulti, "clicked")
+id14 = signal_connect(write_label, btdiv, "clicked")
+id15 = signal_connect(write_label, btC, "clicked")
+id16 = signal_connect(write_label, btequals, "clicked")
+id17 = signal_connect(write_label, btpi, "clicked")
+id18 = signal_connect(write_label, bteuler, "clicked")
+id19 = signal_connect(write_label, btparamsL, "clicked")
+id20 = signal_connect(write_label, btparamsR, "clicked")
+id21 = signal_connect(write_label, btfat, "clicked")
+id22 = signal_connect(write_label, btsquare, "clicked")
+id23 = signal_connect(write_label, btoneAboveX, "clicked")
+id24 = signal_connect(write_label, btmoduler, "clicked")
+id25 = signal_connect(write_label, btsquareRoot, "clicked")
+id26 = signal_connect(write_label, btanySquare, "clicked")
+id27 = signal_connect(write_label, btln, "clicked")
+id28 = signal_connect(write_label, btlog, "clicked")
+id29 = signal_connect(write_label, btinv, "clicked")
+id30 = signal_connect(write_label, btdot, "clicked")
+
 showall(win)
+
+
