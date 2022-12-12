@@ -1,7 +1,7 @@
 #include "math_em_c.h"
 #include <math.h>
 
-int factorial(int a)
+double factorial(double a)
 {
 
     int resposta = a;

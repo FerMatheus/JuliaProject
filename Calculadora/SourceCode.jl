@@ -56,6 +56,8 @@ btlog = GtkButton("log")
 btdot = GtkButton(".")
 
 
+aux2 = GAccessor.style_context(btequals)
+
 
 # Oriented buttons
 push!(hbox, btpi)
@@ -107,7 +109,7 @@ push!(vbox, hbox6)
 push!(win, vbox)
 
 output = ""
-func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c_v2.dll"
+func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c_v3.dll"
 
 function calculate(input)
     middle = "+ " * input
@@ -185,7 +187,7 @@ function write_label(wiget)
         global output = string(aux * -1)
         GAccessor.text(label, output)
     elseif wiget == btfat
-        fat = ccall((:factorial, func), Int, (Int,), parse(Int, output))
+        fat = ccall((:factorial, func), Float64, (Float64,), parse(Float64, output))
         global output = "$fat"
         GAccessor.text(label, output)
     elseif wiget == btcos
