@@ -43,8 +43,8 @@ btpi = GtkButton("π")
 btinv = GtkButton("+/-")
 # functions
 btfat = GtkButton("n!")
-btparamsL = GtkButton("(")
-btparamsR = GtkButton(")")
+btcos = GtkButton("cos")
+btsen = GtkButton("sen")
 btsquareRoot = GtkButton("√")
 btoneAboveX = GtkButton("1/x")
 btsquare = GtkButton("x²")
@@ -61,8 +61,8 @@ btdot = GtkButton(".")
 # Oriented buttons
 push!(hbox, btpi)
 push!(hbox, bteuler)
-push!(hbox, btparamsL)
-push!(hbox, btparamsR)
+push!(hbox, btcos)
+push!(hbox, btsen)
 push!(hbox, btfat)
 
 push!(hbox2, btsquare)
@@ -108,7 +108,26 @@ push!(vbox, hbox6)
 push!(win, vbox)
 
 output = ""
-func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c.dll"
+func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c_v2.dll"
+
+function calculate(input)
+    middle = "+ " * input
+    final = split(middle)
+    result = 0
+
+    for index = 1:lastindex(final)
+        if final[index] == "+"
+            result += parse(Float64, final[index+1])
+        elseif final[index] == "-"
+            result -= parse(Float64, final[index+1])
+        elseif final[index] == "*"
+            result *= parse(Float64, final[index+1])
+        elseif final[index] == "/"
+            result /= parse(Float64, final[index+1])
+        end
+    end
+    return string(result)
+end
 function write_label(wiget)
     if wiget == bt1
         global output = output * "1"
@@ -147,16 +166,16 @@ function write_label(wiget)
         global output = calculate(output)
         GAccessor.text(label, output)
     elseif wiget == btplus
-        global output = output * "+"
+        global output = output * " + "
         GAccessor.text(label, output)
     elseif wiget == btminus
-        global output = output * "-"
+        global output = output * " - "
         GAccessor.text(label, output)
     elseif wiget == btmulti
-        global output = output * "*"
+        global output = output * " * "
         GAccessor.text(label, output)
     elseif wiget == btdiv
-        global output = output * "/"
+        global output = output * " / "
         GAccessor.text(label, output)
     elseif wiget == btpi
         pi = ccall((:pi, func), Float64, (),)
@@ -170,11 +189,13 @@ function write_label(wiget)
         fat = ccall((:factorial, func), Int, (Int,), parse(Int, output))
         global output = "$fat"
         GAccessor.text(label, output)
-    elseif wiget == btparamsL
-        global output = output * "("
+    elseif wiget == btcos
+        cosseno = ccall((:coseno, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$cosseno"
         GAccessor.text(label, output)
-    elseif wiget == btparamsR
-        global output = output * ")"
+    elseif wiget == btsen
+        seno_C = ccall((:seno, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$seno_C"
         GAccessor.text(label, output)
     elseif wiget == btsquareRoot
         squareRoot = ccall((:squareRoot, func), Float64, (Float64,), parse(Float64, output))
@@ -185,22 +206,27 @@ function write_label(wiget)
         global output = "$oneAboveX"
         GAccessor.text(label, output)
     elseif wiget == btsquare
-        global output = output * "²"
+        square = ccall((:square, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$square"
         GAccessor.text(label, output)
     elseif wiget == btanySquare
         global output = output * "^"
         GAccessor.text(label, output)
     elseif wiget == btmoduler
-        global output = output * "|"
+        moduler = ccall((:module, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$moduler"
         GAccessor.text(label, output)
     elseif wiget == bteuler
-        global output = output * "ℯ"
+        euler = ccall((:euler, func), Float64, (),)
+        global output = "$euler"
         GAccessor.text(label, output)
     elseif wiget == btln
-        global output = output * "ln"
+        ln = log(parse(Float64, output))
+        global output = "$ln"
         GAccessor.text(label, output)
     elseif wiget == btlog
-        global output = output * "log"
+        log_C = ccall((:log, func), Float64, (Float64,), parse(Float64, output))
+        global output = "$log_C"
         GAccessor.text(label, output)
     elseif wiget == btdot
         global output = output * "."
@@ -225,8 +251,8 @@ id15 = signal_connect(write_label, btC, "clicked")
 id16 = signal_connect(write_label, btequals, "clicked")
 id17 = signal_connect(write_label, btpi, "clicked")
 id18 = signal_connect(write_label, bteuler, "clicked")
-id19 = signal_connect(write_label, btparamsL, "clicked")
-id20 = signal_connect(write_label, btparamsR, "clicked")
+id19 = signal_connect(write_label, btcos, "clicked")
+id20 = signal_connect(write_label, btsen, "clicked")
 id21 = signal_connect(write_label, btfat, "clicked")
 id22 = signal_connect(write_label, btsquare, "clicked")
 id23 = signal_connect(write_label, btoneAboveX, "clicked")
@@ -239,5 +265,3 @@ id29 = signal_connect(write_label, btinv, "clicked")
 id30 = signal_connect(write_label, btdot, "clicked")
 
 showall(win)
-
-

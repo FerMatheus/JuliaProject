@@ -2,7 +2,7 @@
 println("Digite dois números:")
 x = readline()
 y = readline()
-func = "C_functions/libmath_em_c.dll"
+func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c.dll"
 
 
 plus = ccall(
