@@ -57,7 +57,6 @@ btdot = GtkButton(".")
 
 
 
-
 # Oriented buttons
 push!(hbox, btpi)
 push!(hbox, bteuler)
