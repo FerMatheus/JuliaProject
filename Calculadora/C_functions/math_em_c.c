@@ -90,11 +90,13 @@ double pi()
 
     return 3.1415926535897932384626433832795;
 }
-double coseno(double x)
+double cosseno_C(double x)
 {
-    return cos(x);
+    double i = (pi() * x / 180);
+    return cos(i);
 }
-double seno(double x)
+double seno_C(double x)
 {
-    return sin(x);
+    double i = (pi() * x / 180);
+    return sin(i);
 }

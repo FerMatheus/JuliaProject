@@ -197,7 +197,7 @@ push!(vbox, hbox7)
 push!(win, vbox)
 
 output = ""
-func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c_v3.dll"
+func = "C:\\workspace\\JuliaProject\\Calculadora\\C_functions\\libmath_em_c_v4.dll"
 
 function calculate(input)
     middle = "+ " * input
@@ -279,12 +279,14 @@ function write_label(wiget)
         global output = "$fat"
         GAccessor.text(label, output)
     elseif wiget == btcos
-        cosseno = ccall((:coseno, func), Float64, (Float64,), parse(Float64, output))
-        global output = "$cosseno"
+        cosseno_C = ccall((:cosseno_C, func), Float64, (Float64,), parse(Float64, output))
+        cossenoFormat = round(cosseno_C, digits=3)
+        global output = "$cossenoFormat"
         GAccessor.text(label, output)
     elseif wiget == btsen
-        seno_C = ccall((:seno, func), Float64, (Float64,), parse(Float64, output))
-        global output = "$seno_C"
+        seno_C = ccall((:seno_C, func), Float64, (Float64,), parse(Float64, output))
+        senoFormat = round(seno_C, digits=3)
+        global output = "$senoFormat"
         GAccessor.text(label, output)
     elseif wiget == btsquareRoot
         squareRoot = ccall((:squareRoot, func), Float64, (Float64,), parse(Float64, output))
@@ -299,7 +301,9 @@ function write_label(wiget)
         global output = "$square"
         GAccessor.text(label, output)
     elseif wiget == btmod
-        global output = output * "^"
+        op = split(output)
+        result = (parse(Float64, op[1]) % parse(Float64, op[2]))
+        global output = "$result"
         GAccessor.text(label, output)
     elseif wiget == btmoduler
         moduler = ccall((:module, func), Float64, (Float64,), parse(Float64, output))
