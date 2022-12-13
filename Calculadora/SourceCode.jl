@@ -48,15 +48,103 @@ btsen = GtkButton("sen")
 btsquareRoot = GtkButton("√")
 btoneAboveX = GtkButton("1/x")
 btsquare = GtkButton("x²")
-btanySquare = GtkButton("xʸ")
+btmod = GtkButton("mod")
 btmoduler = GtkButton("|x|")
 bteuler = GtkButton("ℯ")
 btln = GtkButton("ln")
 btlog = GtkButton("log")
 btdot = GtkButton(".")
+btspace = GtkButton("space")
 
+cyan = GtkCssProvider(data="#cyan {background:cyan;}")
+silver = GtkCssProvider(data="#silver {background:silver}")
 
-aux2 = GAccessor.style_context(btequals)
+# Changing the button's color
+sc = GAccessor.style_context(btequals)
+spb = GtkStyleProvider(cyan)
+push!(sc, spb, 600)
+set_gtk_property!(btequals, :name, "cyan")
+
+sc = GAccessor.style_context(btpi)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btpi, :name, "silver")
+sc = GAccessor.style_context(bteuler)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(bteuler, :name, "silver")
+sc = GAccessor.style_context(btcos)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btcos, :name, "silver")
+sc = GAccessor.style_context(btsen)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btsen, :name, "silver")
+sc = GAccessor.style_context(btfat)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btfat, :name, "silver")
+sc = GAccessor.style_context(btsquare)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btsquare, :name, "silver")
+sc = GAccessor.style_context(btoneAboveX)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btoneAboveX, :name, "silver")
+sc = GAccessor.style_context(btmoduler)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btmoduler, :name, "silver")
+sc = GAccessor.style_context(btsquareRoot)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btsquareRoot, :name, "silver")
+sc = GAccessor.style_context(btdiv)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btdiv, :name, "silver")
+sc = GAccessor.style_context(btmod)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btmod, :name, "silver")
+sc = GAccessor.style_context(btmulti)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btmulti, :name, "silver")
+sc = GAccessor.style_context(btln)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btln, :name, "silver")
+sc = GAccessor.style_context(btminus)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btminus, :name, "silver")
+sc = GAccessor.style_context(btlog)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btlog, :name, "silver")
+sc = GAccessor.style_context(btplus)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btplus, :name, "silver")
+sc = GAccessor.style_context(btC)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btC, :name, "silver")
+sc = GAccessor.style_context(btinv)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btinv, :name, "silver")
+sc = GAccessor.style_context(btdot)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btdot, :name, "silver")
+sc = GAccessor.style_context(btspace)
+spb = GtkStyleProvider(silver)
+push!(sc, spb, 600)
+set_gtk_property!(btspace, :name, "silver")
 
 
 # Oriented buttons
@@ -72,7 +160,7 @@ push!(hbox2, btmoduler)
 push!(hbox2, btsquareRoot)
 push!(hbox2, btdiv)
 
-push!(hbox3, btanySquare)
+push!(hbox3, btmod)
 push!(hbox3, bt7)
 push!(hbox3, bt8)
 push!(hbox3, bt9)
@@ -96,7 +184,7 @@ push!(hbox6, bt0)
 push!(hbox6, btdot)
 push!(hbox6, btequals)
 
-
+push!(hbox7, btspace)
 
 push!(vbox, hbox)
 push!(vbox, hbox2)
@@ -104,7 +192,7 @@ push!(vbox, hbox3)
 push!(vbox, hbox4)
 push!(vbox, hbox5)
 push!(vbox, hbox6)
-
+push!(vbox, hbox7)
 
 push!(win, vbox)
 
@@ -167,16 +255,16 @@ function write_label(wiget)
         global output = calculate(output)
         GAccessor.text(label, output)
     elseif wiget == btplus
-        global output = output * " + "
+        global output = output * "+"
         GAccessor.text(label, output)
     elseif wiget == btminus
-        global output = output * " - "
+        global output = output * "-"
         GAccessor.text(label, output)
     elseif wiget == btmulti
-        global output = output * " * "
+        global output = output * "*"
         GAccessor.text(label, output)
     elseif wiget == btdiv
-        global output = output * " / "
+        global output = output * "/"
         GAccessor.text(label, output)
     elseif wiget == btpi
         pi = ccall((:pi, func), Float64, (),)
@@ -210,7 +298,7 @@ function write_label(wiget)
         square = ccall((:square, func), Float64, (Float64,), parse(Float64, output))
         global output = "$square"
         GAccessor.text(label, output)
-    elseif wiget == btanySquare
+    elseif wiget == btmod
         global output = output * "^"
         GAccessor.text(label, output)
     elseif wiget == btmoduler
@@ -232,6 +320,8 @@ function write_label(wiget)
     elseif wiget == btdot
         global output = output * "."
         GAccessor.text(label, output)
+    elseif wiget == btspace
+        global output = output * " "
     end
 end
 id1 = signal_connect(write_label, bt1, "clicked")
@@ -259,10 +349,11 @@ id22 = signal_connect(write_label, btsquare, "clicked")
 id23 = signal_connect(write_label, btoneAboveX, "clicked")
 id24 = signal_connect(write_label, btmoduler, "clicked")
 id25 = signal_connect(write_label, btsquareRoot, "clicked")
-id26 = signal_connect(write_label, btanySquare, "clicked")
+id26 = signal_connect(write_label, btmod, "clicked")
 id27 = signal_connect(write_label, btln, "clicked")
 id28 = signal_connect(write_label, btlog, "clicked")
 id29 = signal_connect(write_label, btinv, "clicked")
 id30 = signal_connect(write_label, btdot, "clicked")
+id30 = signal_connect(write_label, btspace, "clicked")
 
 showall(win)
